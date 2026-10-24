@@ -1,0 +1,263 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ───────────────────────── Theme tokens ───────────────────────── */
+:root,
+.dark {
+  --ink-950: 5 6 15;
+  --ink-900: 9 11 26;
+  --ink-850: 13 16 34;
+  --ink-800: 18 22 45;
+  --line: 255 255 255;
+  --line-opacity: 0.08;
+  --content: 234 238 252;
+  --muted: 148 158 190;
+  --accent: 139 92 246;
+  --accent-2: 34 211 238;
+  --glass: 255 255 255;
+  --glass-opacity: 0.035;
+  --shadow-color: 0 0 0;
+  color-scheme: dark;
+}
+
+.light {
+  --ink-950: 244 246 252;
+  --ink-900: 255 255 255;
+  --ink-850: 248 249 254;
+  --ink-800: 241 243 252;
+  --line: 15 23 42;
+  --line-opacity: 0.1;
+  --content: 15 23 42;
+  --muted: 88 98 128;
+  --accent: 124 58 237;
+  --accent-2: 8 145 178;
+  --glass: 255 255 255;
+  --glass-opacity: 0.72;
+  --shadow-color: 100 116 139;
+  color-scheme: light;
+}
+
+* {
+  border-color: rgb(var(--line) / var(--line-opacity));
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  @apply bg-ink-950 text-content font-sans antialiased;
+  background-image:
+    radial-gradient(900px 500px at 12% -8%, rgb(var(--accent) / 0.16), transparent 60%),
+    radial-gradient(800px 500px at 92% 4%, rgb(var(--accent-2) / 0.12), transparent 62%);
+  background-attachment: fixed;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgb(var(--accent) / 0.35);
+  color: rgb(var(--content));
+}
+
+/* Focus visibility everywhere (accessibility) */
+:focus-visible {
+  outline: 2px solid rgb(var(--accent-2));
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--line) / 0.25) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgb(var(--line) / 0.18);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--line) / 0.3);
+  background-clip: padding-box;
+}
+
+/* ───────────────────────── Components ───────────────────────── */
+@layer components {
+  .glass {
+    background: rgb(var(--glass) / var(--glass-opacity));
+    -webkit-backdrop-filter: blur(18px) saturate(120%);
+    backdrop-filter: blur(18px) saturate(120%);
+    border-width: 1px;
+  }
+
+  .panel {
+    @apply rounded-2xl border shadow-panel;
+    background: linear-gradient(160deg, rgb(var(--ink-850) / 0.92), rgb(var(--ink-900) / 0.98));
+  }
+
+  .panel-flat {
+    @apply rounded-2xl border;
+    background: rgb(var(--ink-850) / 0.72);
+  }
+
+  .gradient-text {
+    background: linear-gradient(100deg, rgb(var(--accent)) 0%, rgb(var(--accent-2)) 85%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn text-white;
+    background: linear-gradient(100deg, rgb(var(--accent)) 0%, rgb(99 102 241) 55%, rgb(var(--accent-2)) 130%);
+    box-shadow: 0 10px 30px -12px rgb(var(--accent) / 0.85);
+  }
+  .btn-primary:hover:not(:disabled) {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+  }
+  .btn-secondary {
+    @apply btn border bg-ink-800/60 text-content hover:bg-ink-800;
+  }
+  .btn-ghost {
+    @apply btn text-muted hover:bg-ink-800/70 hover:text-content;
+  }
+  .btn-danger {
+    @apply btn border border-rose-500/30 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20;
+  }
+  .btn-sm {
+    @apply rounded-lg px-3 py-1.5 text-xs;
+  }
+
+  .input {
+    @apply w-full rounded-xl border bg-ink-900/70 px-3.5 py-2.5 text-sm text-content placeholder:text-muted/70 transition focus:outline-none;
+    @apply focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/15;
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium text-muted;
+  }
+  .chip-active {
+    @apply border-cyan-400/40 bg-cyan-400/10 text-cyan-300;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20 hover:shadow-glow;
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, rgb(var(--line) / 0.06) 25%, rgb(var(--line) / 0.14) 37%, rgb(var(--line) / 0.06) 63%);
+    background-size: 800px 100%;
+    @apply animate-shimmer rounded-lg;
+  }
+
+  .divider {
+    @apply h-px w-full bg-white/5;
+  }
+
+  .kbd {
+    @apply rounded border border-white/15 bg-ink-800 px-1.5 py-0.5 font-mono text-[10px] text-muted;
+  }
+
+  .prose-kynov {
+    @apply text-sm leading-relaxed text-content/90;
+  }
+  .prose-kynov strong {
+    @apply font-semibold text-content;
+  }
+  .prose-kynov code {
+    @apply rounded bg-ink-800 px-1 py-0.5 font-mono text-[12px] text-cyan-300;
+  }
+  .prose-kynov ul {
+    @apply my-2 list-disc space-y-1 pl-5;
+  }
+  .prose-kynov ol {
+    @apply my-2 list-decimal space-y-1 pl-5;
+  }
+  .prose-kynov a {
+    @apply text-cyan-300 underline decoration-cyan-400/40 underline-offset-2;
+  }
+  .prose-kynov h1,
+  .prose-kynov h2,
+  .prose-kynov h3 {
+    @apply mb-1 mt-3 font-semibold text-content;
+  }
+
+  .orb-core {
+    background: radial-gradient(circle at 35% 30%, #c4b5fd 0%, #8b5cf6 35%, #4c1d95 70%, #0b1020 100%);
+    box-shadow:
+      inset 0 0 40px rgba(255, 255, 255, 0.28),
+      0 0 60px rgba(139, 92, 246, 0.55),
+      0 0 140px rgba(34, 211, 238, 0.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ───────────────── Light-theme contrast corrections ─────────────────
+   Tailwind's pastel 300-level accents are tuned for the dark surface.
+   On the light surface we darken them so text keeps WCAG AA contrast. */
+.light .text-cyan-300 {
+  color: rgb(14 116 144);
+}
+.light .text-violet-300,
+.light .text-violet-200 {
+  color: rgb(109 40 217);
+}
+.light .text-emerald-300 {
+  color: rgb(4 120 87);
+}
+.light .text-amber-300,
+.light .text-amber-200 {
+  color: rgb(180 83 9);
+}
+.light .text-rose-300,
+.light .text-rose-200 {
+  color: rgb(190 18 60);
+}
+.light .text-slate-300 {
+  color: rgb(51 65 85);
+}
+.light .chip {
+  color: rgb(71 85 105);
+}
+.light .chip-active {
+  color: rgb(14 116 144);
+  border-color: rgb(8 145 178 / 0.35);
+  background-color: rgb(8 145 178 / 0.08);
+}
+.light .prose-kynov code {
+  color: rgb(109 40 217);
+  background-color: rgb(15 23 42 / 0.06);
+}
+.light .prose-kynov a {
+  color: rgb(14 116 144);
+}
+.light .kbd {
+  color: rgb(71 85 105);
+  border-color: rgb(15 23 42 / 0.12);
+}
